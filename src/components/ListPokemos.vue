@@ -1,5 +1,5 @@
 <template>
-    <div class="col-4">
+    <div class="col-4 col-md-6 col-xl-3">
         <div class="card mb-3 p-2 cardListPokemon">
             <h5 class="text-center">{{ props.pokemoName }}</h5>
             <img 
@@ -27,12 +27,14 @@ const props = defineProps({
 </script>
 <style scoped>
 .cardListPokemon {
+    height: 150px;
     background: rgb(16, 6, 180);
     background: linear-gradient(90deg, rgba(16, 6, 180, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
     cursor: pointer;
 }
 
 .cardListPokemon:hover {
+    height: 150px;
     background: rgb(16, 6, 180);
     background: linear-gradient(90deg, rgba(16, 6, 180, 0.5) 0%, rgba(0, 212, 255, 0.5) 100%);
     cursor: pointer;

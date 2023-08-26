@@ -109,4 +109,10 @@ onMounted(fetchPokemons);
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+@media (max-width: 768px) {
+    .card-list {
+        max-height: 48vh;
+    }
+}
 </style>

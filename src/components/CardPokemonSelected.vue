@@ -5,7 +5,6 @@
 
         <img 
         :src="pokemon.img"
-        height="250"
         class="card-img-top pt-3" 
         :alt="pokemon.name">
 
@@ -21,6 +20,18 @@
                     <strong>Height:</strong>
                     <span>{{ pokemon.height }}</span>
                 </section>
+            </div>
+            <div class="d-none d-md-block">
+                <div class="row mt-3">
+                    <section class="col">
+                        <strong>XP:</strong>
+                        <span>{{ pokemon.xp }}</span>
+                    </section>
+                    <section class="col">
+                        <strong>Height:</strong>
+                        <span>{{ pokemon.height }}</span>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
@@ -47,7 +58,7 @@ const pokemon = defineProps({
     },
     loading: {
         type: Boolean,
-        defalut: true
+        defalut: false
     }
 
 });
@@ -58,5 +69,21 @@ const pokemon = defineProps({
     height: 75vh;
     background: rgb(77, 63, 215);
     background: radial-gradient(circle, rgba(232, 206, 10, 0.89) 0%, rgba(255, 0, 0, 0.825) 100%);
+}
+
+.CardPokemonSelected img {
+    height: 250px;
+}
+
+@media (max-width: 768px) {
+    .CardPokemonSelected {
+        height: 30vh;
+        width: 40%;
+        margin: 0 auto 10px auto;
+    }
+
+    .CardPokemonSelected img {
+        height: 100px;
+    }
 }
 </style>
