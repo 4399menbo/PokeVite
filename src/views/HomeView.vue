@@ -60,18 +60,14 @@ onMounted(fetchPokemons);
         <div class="container text-body-secondary">
             <div class="row mt-4">
                 <div class="col-sm-12 col-md-6">
-                    <!-- <div class="card" style="width: 18rem;">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcRZZcqzU9bg7Q5ShVyVcPzarc55fJ2Cd7oQ&usqp=CAU" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div> -->
                     <CardPokemonSelected
+                    :id = "pokemonSelelcted?.id"
                     :name ="pokemonSelelcted?.name"
-                    :xp ="pokemonSelelcted?.base_experience"
+                    :types="pokemonSelelcted?.types"
+                    :weight ="pokemonSelelcted?.weight"
                     :height ="pokemonSelelcted?.height"
                     :img="pokemonSelelcted?.sprites.other.dream_world.front_default"
+                    :stats="pokemonSelelcted?.stats"
                     :loading="loading"
                     ></CardPokemonSelected>
                 </div>
@@ -112,7 +108,7 @@ onMounted(fetchPokemons);
 
 @media (max-width: 768px) {
     .card-list {
-        max-height: 48vh;
+        max-height: 42vh;
     }
 }
 </style>

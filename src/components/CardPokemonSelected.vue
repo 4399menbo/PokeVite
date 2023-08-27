@@ -1,50 +1,77 @@
 <template>
     <div 
     class="card CardPokemonSelected"
-    :class="loading ? '' : 'animate__animated animate__flipInY'">
+    :class="loading ? '' : 'animate__animated animate__fadeIn'">
 
-        <img 
+        <img
         :src="pokemon.img"
         class="card-img-top pt-3" 
         :alt="pokemon.name">
 
         <div class="card-body">
-            <h5 class="card-title text-center">{{ pokemon.name }}</h5>
-            <hr>
-            <div class="row">
-                <section class="col">
-                    <strong>XP:</strong>
-                    <span>{{ pokemon.xp }}</span>
+            <h5 class="card-title text-center ">#{{ pokemon.id + " " + pokemon.name }}</h5>
+            <div class="d-none d-md-block">
+                <div class="row d-flex justify-content-center base-height">
+                    <div v-for="typeItems in (pokemon.types as Types[])" 
+                    :class="typeItems.type.name" 
+                    class="my-auto mx-2 py-1 col text-white text-center rounded">
+                    {{ typeItems.type.name }}
+                    </div>
+                </div>
+            </div>
+            <div class="row base-height">
+                <section class="col-5">
+                    <img class="img-center" src="../assets/weight.svg" alt="weight">
+                    <div class="text-center">{{ (pokemon.weight * 0.1).toFixed(1) }}kg</div>
                 </section>
-                <section class="col">
-                    <strong>Height:</strong>
-                    <span>{{ pokemon.height }}</span>
+                <section class="col-2">
+                    <div class="h-50 vr d-block mx-auto"></div>
+                </section>
+                <section class="col-5">
+                    <img class="img-center" src="../assets/colum-height.svg" alt="height">
+                    <div class="text-center">{{ (pokemon.height * 0.1).toFixed(1) }}m</div>
                 </section>
             </div>
             <div class="d-none d-md-block">
-                <div class="row mt-3">
-                    <section class="col">
-                        <strong>XP:</strong>
-                        <span>{{ pokemon.xp }}</span>
-                    </section>
-                    <section class="col">
-                        <strong>Height:</strong>
-                        <span>{{ pokemon.height }}</span>
-                    </section>
+                <div class="mt-4">
+                    <hr>
+                    <h5>Base Stat:</h5>
+                    <div v-for="statItems in (pokemon.stats as Stats[])"
+                    class="progress mb-1"
+                    style="height: 20px" role="progressbar" 
+                    aria-label="Example with label" 
+                    :aria-valuenow="(statItems.base_stat as number)" aria-valuemin="0" 
+                    :aria-valuemax="getMaxVal(pokemon.stats as Stats[])">
+                        <div 
+                        class="progress-bar" 
+                        :style="'width: ' + getCurrentPerson(statItems.base_stat as number, pokemon.stats as Stats[]) + '%'"
+                        :class="statItems.stat.name">
+                            <div class="row px-1">
+                                <div class="col text-start fs-6">{{ statItems.stat.name }}</div>
+                                <div class="col text-end fs-6">{{ statItems.base_stat }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-
-
 const pokemon = defineProps({
+    id: {
+        type: Number,
+        default: 0
+    },
     name: {
         type: String,
         default: "???"
     },
-    xp: {
+    types: {
+        type: Array,
+        defalut: []
+    },
+    weight: {
         type: Number,
         default: 0
     },
@@ -56,15 +83,63 @@ const pokemon = defineProps({
         type: String,
         default: new URL("../assets/egg_pokemon.svg", import.meta.url).href
     },
+    stats: {
+        type: Array,
+        default: []
+    },
     loading: {
         type: Boolean,
         defalut: false
     }
-
 });
+
+interface Types {
+    slot: Number;
+    type: Type;
+}
+
+interface Type {
+    name: String;
+    url: String;
+}
+
+interface Stats {
+    base_stat: Number;
+    effort: Number;
+    stat: Stat;
+}
+
+interface Stat {
+    name: string;
+    url: string;
+}
+
+
+const getMaxVal = (stats: Stats[]) => {
+    let maxVal = 0;
+
+    for (let index = 0; index < stats.length; index++) {
+        if (stats[index].base_stat as number > maxVal) {
+            maxVal = stats[index].base_stat as number;
+        }
+    }
+
+    return maxVal;
+};
+
+const getCurrentPerson = (val: number, stats: Stats[]) => {
+    let person = val / getMaxVal(stats) * 100;
+    if (person < 30) {
+        person = 30;
+    }
+    return person;
+}
+
 
 </script>
 <style scoped>
+@import '../assets/base.css';
+
 .CardPokemonSelected {
     height: 75vh;
     background: rgb(77, 63, 215);
@@ -72,18 +147,36 @@ const pokemon = defineProps({
 }
 
 .CardPokemonSelected img {
-    height: 250px;
+    height: 30%;
 }
+
+
+.base-height {
+    height: 50px;
+}
+
+.img-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 99.58px;
+}
+
+
 
 @media (max-width: 768px) {
     .CardPokemonSelected {
-        height: 30vh;
-        width: 40%;
+        height: 35vh;
+        width: 250px;
         margin: 0 auto 10px auto;
     }
 
     .CardPokemonSelected img {
-        height: 100px;
+        height: 50%;
+    }
+
+    .img-center {
+        width: 22.58px;
     }
 }
 </style>
