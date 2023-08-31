@@ -1,25 +1,45 @@
 <template>
   <div class="container p-5 mb-4 text-body-secondary">
     <div class="card">
-      <h1 class="text-center">PokeVite</h1>
+      <h1 class="text-center">介紹</h1>
       <div class="card-body">
-        <h2>Objetivo:</h2>
-        <p>Esse é mais um projeto desenvolvido para fins didáticos com intúito de praticar o desenvolvimento com Vue 3 utilizando Vite e consumindo a API PokeAPI.</p>
+        <h2>GitHub:</h2>
+        <p>
+          <a class="btn btn-primary wp-25" target="_blank" href="https://github.com/4399menbo/PokeVite" alt="pokeVite">pokeVite</a>
+        </p>
+        <p>
+          <a class="btn btn-primary wp-25" target="_blank" href="https://github.com/4399menbo/PokeFx" alt="pokeFx">pokeFx</a>
+        </p>
+        <p>
+          <a class="btn btn-primary wp-25" target="_blank" href="https://github.com/4399menbo/PokeJpack" alt="pokeJpack">pokeJpack</a>
+        </p>
         <hr>
-        <h3>Tutorial</h3>
+        <h3>程式語言:</h3>
+        <section><span class="fw-bold fs-5 m-1">PokeVite:</span>Vue</section>
+        <section><span class="fw-bold fs-5 m-1">PokeFx:</span>Java</section>
+        <section><span class="fw-bold fs-5 m-1">PokeJpack:</span>Kotlin</section>
+        <hr>
+        <h3>UI框架:</h3>
+        <section><span class="fw-bold fs-5 m-1">PokeVite:</span>Bootstrap</section>
+        <section><span class="fw-bold fs-5 m-1">PokeFx:</span>JavaFx</section>
+        <section><span class="fw-bold fs-5 m-1">PokeJpack:</span>Jetpack Compose</section>
+        <hr>
+        <h3>教學影片:</h3>
         <p>
-          Link do GitHub: <a href="https://github.com/yurimarcon/Vite-pokedex" target="_blank" alt="Link do projeto no GitHub" >/Vite-pokedex</a>
+          PokeVite-CursoVue3+Vite:<a href="https://www.youtube.com/watch?v=JWEhN12bW8w&list=PLygIEirBzJi64nSpsN1S6varBLU0HckAF&ab_channel=YuriMarcon" target="_blank" alt="YouTubeLink">YouTubeLink</a>
         </p>
-        <p>A playlist com o desenvolvimento passo a passo está no YouTube e te convido a acompanhar caso queira aprender ou aprimorar suas abilidades com as técnologias utilizadas.</p>
-        <img src="https://user-images.githubusercontent.com/44410208/213874225-3556aefc-cd31-428b-aa2c-787289d8e4a3.png" alt="Curso Vue 3 e Vite">
-
-        <p class="mt-2">Agradeço as pessoas que acompanharam a incentivaram o projeto!</p>
-        <p>Caso queira desenvolver acompanhando as video aulas e fique com alguma dúvida, fique a vontade para entrar em contato via e-mail.</p>
         <p>
-          <a class="btn btn-primary" href="mailto:yuri.erik.oliveira@gmail.com">📧 yuri.erik.oliveira@gmail.com</a>
+          PokédexAppWithJetpackCompose:<a href="https://www.youtube.com/watch?v=v0of23TxIKc&list=PLQkwcJG4YTCTimTCpEL5FZgaWdIZQuB7m&ab_channel=PhilippLackner" target="_blank" alt="YouTubeLink">YouTubeLink</a>
         </p>
-        <p>Me acompanhe no Github e no Linkedin, network é muito importante para área de tecnologia!</p>
-        <a class="btn btn-primary" target="_blank" href="https://link-service.netlify.app/" alt="Minhas mídias sociais">👨‍💻 Minhas mídias sociais 🤓 ✌️</a>
+        <hr>
+        <h3>UI設計參考:</h3>
+        <p>
+          PokeFxMainScreen:<a href="https://www.youtube.com/watch?v=E-T5R_GhT-k&ab_channel=TACoding" target="_blank" alt="YouTubeLink">YouTubeLink</a>
+        </p>
+        <p>
+          PokeFxDetailScreen:<a href="https://www.youtube.com/watch?v=qs2neNqLcmw&t=179s&ab_channel=KishanSheth" target="_blank" alt="YouTubeLink">YouTubeLink</a>
+        </p>
+        <hr>
       </div>
       
     </div>
@@ -27,4 +47,8 @@
 
 </template>
 
-<style scoped></style>
+<style scoped>
+.wp-25 {
+  width: 150px;
+}
+</style>

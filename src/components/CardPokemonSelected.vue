@@ -1,17 +1,22 @@
 <template>
+
     <div 
-    class="card CardPokemonSelected"
+    class="card CardPokemonSelected position-relative"
     :class="loading ? '' : 'animate__animated animate__fadeIn'">
+        <img 
+        class="position-absolute top-0 end-0 img-gif"
+        :class="loading ? '' : 'animate__animated animate__flipInX'"
+        :src="pokemon.id === 0 ? '' : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/' + pokemon.id + '.gif'">
 
         <img
         :src="pokemon.img"
-        class="card-img-top pt-3" 
+        class="card-img-top pt-3 img" 
         :alt="pokemon.name">
 
         <div class="card-body">
             <h5 class="card-title text-center ">#{{ pokemon.id + " " + pokemon.name }}</h5>
             <div class="d-none d-md-block">
-                <div class="row d-flex justify-content-center base-height">
+                <div class="row d-flex justify-content-center fw-bold base-height">
                     <div v-for="typeItems in (pokemon.types as Types[])" 
                     :class="typeItems.type.name" 
                     class="my-auto mx-2 py-1 col text-white text-center rounded">
@@ -21,34 +26,34 @@
             </div>
             <div class="row base-height">
                 <section class="col-5">
-                    <img class="img-center" src="../assets/weight.svg" alt="weight">
+                    <img class="img-center img" src="../assets/weight.svg" alt="weight">
                     <div class="text-center">{{ (pokemon.weight * 0.1).toFixed(1) }}kg</div>
                 </section>
                 <section class="col-2">
                     <div class="h-50 vr d-block mx-auto"></div>
                 </section>
                 <section class="col-5">
-                    <img class="img-center" src="../assets/colum-height.svg" alt="height">
+                    <img class="img-center img" src="../assets/colum-height.svg" alt="height">
                     <div class="text-center">{{ (pokemon.height * 0.1).toFixed(1) }}m</div>
                 </section>
             </div>
             <div class="d-none d-md-block">
                 <div class="mt-4">
                     <hr>
-                    <h5>Base Stat:</h5>
+                    <h5 v-show="pokemon.stats.length > 0">Base Stat:</h5>
                     <div v-for="statItems in (pokemon.stats as Stats[])"
-                    class="progress mb-1"
+                    class="progress mb-2"
                     style="height: 20px" role="progressbar" 
                     aria-label="Example with label" 
                     :aria-valuenow="(statItems.base_stat as number)" aria-valuemin="0" 
-                    :aria-valuemax="getMaxVal(pokemon.stats as Stats[])">
+                    :aria-valuemax="pokemon.max">
                         <div 
                         class="progress-bar" 
-                        :style="'width: ' + getCurrentPerson(statItems.base_stat as number, pokemon.stats as Stats[]) + '%'"
+                        :style="'width: ' + getCurrentPerson(statItems.base_stat as number, pokemon.max) + '%'"
                         :class="statItems.stat.name">
-                            <div class="row px-1">
-                                <div class="col text-start fs-6">{{ statItems.stat.name }}</div>
-                                <div class="col text-end fs-6">{{ statItems.base_stat }}</div>
+                            <div class="row px-1 text-black fw-bold fs-6">
+                                <div class="col text-start">{{ statItems.stat.name }}</div>
+                                <div class="col text-end">{{ statItems.base_stat }}</div>
                             </div>
                         </div>
                     </div>
@@ -58,6 +63,8 @@
     </div>
 </template>
 <script setup lang="ts">
+import { type Types, type Type, type Stats, type Stat } from "@/util/pokemon";
+
 const pokemon = defineProps({
     id: {
         type: Number,
@@ -87,48 +94,19 @@ const pokemon = defineProps({
         type: Array,
         default: []
     },
+    max: {
+        type: Number,
+        default: 0
+    },
     loading: {
         type: Boolean,
         defalut: false
     }
 });
 
-interface Types {
-    slot: Number;
-    type: Type;
-}
 
-interface Type {
-    name: String;
-    url: String;
-}
-
-interface Stats {
-    base_stat: Number;
-    effort: Number;
-    stat: Stat;
-}
-
-interface Stat {
-    name: string;
-    url: string;
-}
-
-
-const getMaxVal = (stats: Stats[]) => {
-    let maxVal = 0;
-
-    for (let index = 0; index < stats.length; index++) {
-        if (stats[index].base_stat as number > maxVal) {
-            maxVal = stats[index].base_stat as number;
-        }
-    }
-
-    return maxVal;
-};
-
-const getCurrentPerson = (val: number, stats: Stats[]) => {
-    let person = val / getMaxVal(stats) * 100;
+const getCurrentPerson = (val: number, max: number) => {
+    let person = val / max * 100;
     if (person < 30) {
         person = 30;
     }
@@ -146,7 +124,7 @@ const getCurrentPerson = (val: number, stats: Stats[]) => {
     background: radial-gradient(circle, rgba(232, 206, 10, 0.89) 0%, rgba(255, 0, 0, 0.825) 100%);
 }
 
-.CardPokemonSelected img {
+.CardPokemonSelected .img {
     height: 30%;
 }
 
@@ -162,6 +140,9 @@ const getCurrentPerson = (val: number, stats: Stats[]) => {
     width: 99.58px;
 }
 
+.img-gif {
+    width: 39px;
+}
 
 
 @media (max-width: 768px) {
@@ -171,7 +152,7 @@ const getCurrentPerson = (val: number, stats: Stats[]) => {
         margin: 0 auto 10px auto;
     }
 
-    .CardPokemonSelected img {
+    .CardPokemonSelected .img {
         height: 50%;
     }
 

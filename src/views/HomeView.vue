@@ -2,31 +2,37 @@
 import { onMounted, ref, reactive, computed } from "vue";
 import LisPokemos from "@/components/ListPokemos.vue"
 import CardPokemonSelected from "@/components/CardPokemonSelected.vue";
-
-
-interface PokemonType {
-    name: string;
-    url: string;
-}
+import { type PokemonType, type Stats } from "@/util/pokemon";
 
 
 let basicSvg = ref<string>("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/");
-let pokemons = ref<PokemonType[]>();
+var pokemons = reactive(ref<PokemonType[]>([]));
 let searchPokemonField = ref<string>("");
 let pokemonSelelcted = reactive(ref());
 let loading = ref<boolean>(false);
+let maxStat = ref<number>(0);
+let fetchIng = ref<boolean>(false);
+
+var pokemonsTmp: PokemonType[] = [];
+
 
 const fetchPokemons = () => {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0")
+    fetchIng.value = true;
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=151&offset=" + (pokemons.value.length) + "")
         .then(res => res.json())
         .then(res => {
-            pokemons.value = res.results.map((pokemon: PokemonType) => ({
+            pokemonsTmp = res.results.map((pokemon: PokemonType) => ({
                 name: pokemon.name,
                 url: pokemon.url
             }));
-            console.log(pokemons);
+
+            pokemons.value = pokemons.value.concat(pokemonsTmp);
+            //console.log(pokemons.value);
         })
         .catch(err => alert(err))
+        .finally(() => {
+            fetchIng.value = false;
+        })
 };
 
 const pokemonsFiltered = computed(() => {
@@ -44,13 +50,25 @@ const selectPokemon = async (pokemon: PokemonType) => {
     await fetch(pokemon.url)
         .then(res => res.json())
         .then(res => pokemonSelelcted.value = res)
+        .then(() => maxStat.value = getMaxVal(pokemonSelelcted?.value.stats))
         .catch(err => alert(err))
         .finally(() => {
             loading.value = false;
-
         });
 
 }
+
+const getMaxVal = (stats: Stats[]) => {
+    let maxVal = 0;
+
+    for (let index = 0; index < stats.length; index++) {
+        if (stats[index].base_stat as number > maxVal) {
+            maxVal = stats[index].base_stat as number;
+        }
+    }
+
+    return maxVal;
+};
 
 onMounted(fetchPokemons);
 </script>
@@ -68,6 +86,7 @@ onMounted(fetchPokemons);
                     :height ="pokemonSelelcted?.height"
                     :img="pokemonSelelcted?.sprites.other.dream_world.front_default"
                     :stats="pokemonSelelcted?.stats"
+                    :max="maxStat"
                     :loading="loading"
                     ></CardPokemonSelected>
                 </div>
@@ -90,6 +109,10 @@ onMounted(fetchPokemons);
                                 :basicSvg="basicSvg + pokemon.url.split('/')[6] + '.svg'"
                                 @click="selectPokemon(pokemon)"
                             />
+
+                            <button 
+                            v-if="pokemonsFiltered.length === pokemons.length && !fetchIng" 
+                            class="btn btn-primary" @click="fetchPokemons()">LOADING</button>
                         </div>
                     </div>
                 </div>
