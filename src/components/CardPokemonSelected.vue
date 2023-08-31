@@ -38,9 +38,8 @@
                 </section>
             </div>
             <div class="d-none d-md-block">
-                <div class="mt-4">
+                <div class="mt-3">
                     <hr>
-                    <h5 v-show="pokemon.stats.length > 0">Base Stat:</h5>
                     <div v-for="statItems in (pokemon.stats as Stats[])"
                     class="progress mb-2"
                     style="height: 20px" role="progressbar" 
